@@ -1,18 +1,10 @@
-import { json, type MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { json, useLoaderData } from '@remix-run/react';
 import { LuSearch } from 'react-icons/lu';
 import MovieCard from '~/components/MovieCard';
 import Navbar from '~/components/Navbar';
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
-  ];
-};
+import { Movie } from '~/types/Movie';
 
 export const loader = async () => {
-  console.log(process.env.AUTH_TOKEN);
   const options = {
     method: 'GET',
     headers: {
@@ -29,7 +21,7 @@ export const loader = async () => {
 };
 
 export default function Index() {
-  const { movies } = useLoaderData();
+  const { movies } = useLoaderData<{ movies: Movie[] }>();
 
   return (
     <div>
@@ -55,11 +47,13 @@ export default function Index() {
           </h2>
 
           <div className="mt-10 grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-center">
-            {movies?.map((movie) => (
+            {movies.map((movie) => (
               <MovieCard
                 key={movie.id}
                 title={movie.title}
                 releaseDate={movie.release_date}
+                imagePath={movie.poster_path}
+                voteAverage={movie.vote_average}
               />
             ))}
           </div>

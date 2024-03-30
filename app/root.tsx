@@ -6,6 +6,14 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import './tailwind.css';
+import { MetaFunction } from '@remix-run/node';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Movie Watch' },
+    { name: 'description', content: 'Welcome to Movie Watch!' },
+  ];
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
