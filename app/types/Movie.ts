@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
+  genres: any[];
+  runtime: any;
   id: number;
   original_language: string;
   original_title: string;

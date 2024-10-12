@@ -1,7 +1,6 @@
 import { json, useLoaderData } from '@remix-run/react';
 import { LuSearch } from 'react-icons/lu';
 import MovieCard from '~/components/MovieCard';
-import Navbar from '~/components/Navbar';
 import { Movie } from '~/types/Movie';
 
 export const loader = async () => {
@@ -25,40 +24,37 @@ export default function Index() {
 
   return (
     <div>
-      <Navbar />
-
-      <main className="p-12 sm:ml-72">
-        <form className="relative">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer dark:text-white">
-            <LuSearch />
-          </div>
-
-          <input
-            type="search"
-            className="block w-full p-2 ps-10 text-sm dark:text-zinc-300 border dark:border-zinc-600 dark:bg-zinc-800 rounded-md focus:ring-gray-800
-              focus:border-gray-500"
-            placeholder="Search"
-          />
-        </form>
-
-        <div className="mt-8">
-          <h2 className="text-3xl text-neutral-200 font-normal">
-            Popular movies right now
-          </h2>
-
-          <div className="mt-10 grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-center">
-            {movies.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                title={movie.title}
-                releaseDate={movie.release_date}
-                imagePath={movie.poster_path}
-                voteAverage={movie.vote_average}
-              />
-            ))}
-          </div>
+      <form className="relative">
+        <div className="absolute inset-y-0 start-0 flex cursor-pointer items-center ps-3 dark:text-white">
+          <LuSearch />
         </div>
-      </main>
+
+        <input
+          type="search"
+          className="block w-full rounded-md border p-2 ps-10 text-sm focus:border-gray-500 focus:ring-gray-800 dark:border-zinc-600 dark:bg-zinc-800
+              dark:text-zinc-300"
+          placeholder="Search"
+        />
+      </form>
+
+      <div className="mt-8">
+        <h2 className="text-3xl font-normal text-neutral-200">
+          Popular movies right now
+        </h2>
+
+        <div className="mt-10 grid grid-cols-2 justify-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+          {movies.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              releaseDate={movie.release_date}
+              imagePath={movie.poster_path}
+              voteAverage={movie.vote_average}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

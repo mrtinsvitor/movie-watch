@@ -1,41 +1,61 @@
-import { NavLink } from '@remix-run/react';
+import { json, NavLink, useLoaderData } from '@remix-run/react';
 import { LuHistory, LuHome, LuSearch } from 'react-icons/lu';
+import TripleDot from '~/assets/triple-dot.svg?react';
+
+export const loader = async () => {
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
+    },
+  };
+
+  const accountId = '12233931';
+  const response = await (
+    await fetch(`https://api.themoviedb.org/3/account/${accountId}`, options)
+  ).json();
+
+  return json({ user: response });
+};
 
 export default function Navbar() {
+  const { user } = useLoaderData<any>();
+
   return (
     <aside
       id="default-sidebar"
-      className="fixed top-0 left-0 z-40 w-72 h-screen transition-transform -translate-x-full sm:translate-x-0"
+      className="fixed left-0 top-0 z-40 h-screen w-72 -translate-x-full transition-transform sm:translate-x-0"
       aria-label="Sidebar"
     >
-      <div className="h-full px-3 py-4 overflow-y-auto dark:bg-black">
+      <div className="flex h-full flex-col overflow-y-auto px-3 py-4 dark:bg-black">
         <div className="mb-5">
-          <h2 className="text-center text-red-500 text-4xl font-extrabold">
+          <h2 className="text-center text-4xl font-extrabold text-red-500">
             Watchlists
           </h2>
         </div>
 
         <form className="relative">
-          <div className="absolute inset-y-0 start-0 flex items-center ps-3 cursor-pointer dark:text-white">
+          <div className="absolute inset-y-0 start-0 flex cursor-pointer items-center ps-3 dark:text-white">
             <LuSearch />
           </div>
 
           <input
             type="search"
-            className="block w-full p-2 ps-10 text-sm dark:text-zinc-300 border dark:border-zinc-600 dark:bg-black rounded-md focus:ring-gray-800
-              focus:border-gray-500"
+            className="block w-full rounded-md border p-2 ps-10 text-sm focus:border-gray-500 focus:ring-gray-800 dark:border-zinc-600 dark:bg-black
+              dark:text-zinc-300"
             placeholder="Search"
           />
         </form>
 
-        <ul className="space-y-2 font-medium mt-10">
+        <ul className="mt-10 space-y-2 font-medium">
           <li>
             <NavLink
               to="/"
               className={({ isActive }) =>
                 `${
                   isActive ? 'bg-stone-900' : ''
-                } flex items-center px-4 py-2 rounded-md dark:hover:bg-stone-900 dark:text-white text-base font-normal`
+                } flex items-center rounded-md px-4 py-2 text-base font-normal dark:text-white dark:hover:bg-stone-900`
               }
             >
               <LuHome /> <span className="ml-4">Home</span>
@@ -48,7 +68,7 @@ export default function Navbar() {
               className={({ isActive }) =>
                 `${
                   isActive ? 'dark:bg-stone-900' : ''
-                } flex items-center px-4 py-2 rounded-md dark:hover:bg-stone-900 dark:text-white text-base font-normal`
+                } flex items-center rounded-md px-4 py-2 text-base font-normal dark:text-white dark:hover:bg-stone-900`
               }
             >
               <LuHistory /> <span className="ml-4">History</span>
@@ -56,9 +76,23 @@ export default function Navbar() {
           </li>
         </ul>
 
-        <button className="bg-red-500 rounded-md text-center dark:text-neutral-900 text-base font-bold p-2 block w-full mt-8">
+        <button className="mt-8 block w-full rounded-md bg-red-500 p-2 text-center text-base font-bold dark:text-neutral-900">
           + Create watchlist
         </button>
+
+        <div className="mt-auto rounded-md border border-neutral-200 p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="rounded-full bg-cyan-400 p-1">
+                <p className="text-xs">VM</p>
+              </div>
+
+              {/* <p className="text-center text-sm text-white">{data?.username}</p> */}
+            </div>
+
+            <TripleDot className="cursor-pointer" />
+          </div>
+        </div>
       </div>
     </aside>
   );

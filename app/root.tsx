@@ -1,3 +1,4 @@
+import { MetaFunction } from '@remix-run/node';
 import {
   Links,
   Meta,
@@ -5,8 +6,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
+import { QueryClient } from '@tanstack/react-query';
+import Navbar from './components/Navbar';
 import './tailwind.css';
-import { MetaFunction } from '@remix-run/node';
 
 export const meta: MetaFunction = () => {
   return [
@@ -25,7 +27,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="dark:bg-zinc-800">
-        {children}
+        <Navbar />
+        <main className="p-12 sm:ml-72">{children}</main>
         <ScrollRestoration />
         <Scripts />
       </body>

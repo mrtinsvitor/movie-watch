@@ -1,22 +1,25 @@
+import { Link } from '@remix-run/react';
+import AwfulIcon from '~/assets/movie-score/awful.svg?react';
 import GreatIcon from '~/assets/movie-score/great.svg?react';
 import NormalIcon from '~/assets/movie-score/normal.svg?react';
-import AwfulIcon from '~/assets/movie-score/awful.svg?react';
 
-type Props = {
+interface MovieCardProps {
+  id: number;
   title: string;
   releaseDate: string;
   imagePath: string;
   voteAverage: number;
-};
+}
 
 export default function MovieCard({
+  id,
   title,
   releaseDate,
   imagePath,
   voteAverage,
-}: Props) {
+}: MovieCardProps) {
   return (
-    <div className="bg-zinc-900 rounded-md">
+    <Link to={`/movies/${id}`} className="rounded-md bg-zinc-900">
       <div>
         <img
           src={`http://image.tmdb.org/t/p/w500/${imagePath}`}
@@ -27,7 +30,7 @@ export default function MovieCard({
       </div>
 
       <div className="px-2">
-        <div className="flex row justify-end pt-2">
+        <div className="row flex justify-end pt-2">
           <div className="flex items-center gap-1">
             <ScoreIcon voteAverage={voteAverage} />{' '}
             <p className="text-2xl text-neutral-200">
@@ -35,17 +38,17 @@ export default function MovieCard({
             </p>
           </div>
 
-          <p className="text-sm text-neutral-200 ml-1">/ 100</p>
+          <p className="ml-1 text-sm text-neutral-200">/ 100</p>
         </div>
 
-        <h5 className="text-neutral-200 text-base">
+        <h5 className="text-base text-neutral-200">
           {title}{' '}
-          <span className="text-neutral-400 text-sm">
+          <span className="text-sm text-neutral-400">
             ({new Date(releaseDate).getFullYear()})
           </span>
         </h5>
       </div>
-    </div>
+    </Link>
   );
 }
 
